@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube Audio Downloader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="contenedor">
+        <h1>🎵 Descargar audio de YouTube</h1>
+
+        <form action="/preview" method="post">
+            <input type="text" name="url" placeholder="Pega el link de YouTube" required
+                   value="{{ datos.url if datos else '' }}">
+            <button type="submit">Buscar video</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if datos %}
+        <div class="preview">
+            <img src="{{ datos.miniatura }}" alt="Miniatura">
+            <h2>{{ datos.titulo }}</h2>
+            <p>Canal: {{ datos.canal }}</p>
+            <p>Duración: {{ datos.duracion }} segundos</p>
+
+            <form action="/download" method="post">
+                <input type="hidden" name="url" value="{{ datos.url }}">
+                <button type="submit" class="confirmar">✅ Sí, descargar este video</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

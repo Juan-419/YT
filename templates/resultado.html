@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Descarga completada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="contenedor">
+        <h1>✅ ¡Descarga completada!</h1>
+        <p><strong>{{ titulo }}</strong></p>
+        <p>Guardado en: {{ ruta }}</p>
+        <a href="/">Descargar otro</a>
+    </div>
+</body>
+</html>
