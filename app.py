@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, send_file
 import yt_dlp
 import os
+import tempfile
 
 app = Flask(__name__)
 CARPETA_DESCARGAS = "descargas"
-COOKIES_FILE = "cookies.txt"
 
 def get_opciones_base(skip_download=False):
     opciones = {
@@ -12,8 +12,15 @@ def get_opciones_base(skip_download=False):
         "skip_download": skip_download,
         "noplaylist": True,
     }
-    if os.path.exists(COOKIES_FILE):
-        opciones["cookiefile"] = COOKIES_FILE
+
+    if os.path.exists("cookies.txt"):
+        opciones["cookiefile"] = "cookies.txt"
+    elif os.environ.get("YOUTUBE_COOKIES"):
+        tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False)
+        tmp.write(os.environ.get("YOUTUBE_COOKIES"))
+        tmp.close()
+        opciones["cookiefile"] = tmp.name
+
     return opciones
 
 @app.route("/", methods=["GET"])
@@ -32,7 +39,6 @@ def preview():
     except Exception as e:
         return render_template("index.html", error=f"No se pudo procesar el link: {e}")
 
-    # Convertir duración a minutos:segundos
     duracion_raw = info.get("duration", 0)
     minutos = duracion_raw // 60
     segundos = duracion_raw % 60
@@ -69,7 +75,6 @@ def download():
     except Exception as e:
         return render_template("index.html", error=f"Error al descargar: {e}")
 
-    # Buscar el archivo mp3 generado
     ruta_mp3 = None
     for archivo in os.listdir(CARPETA_DESCARGAS):
         if archivo.endswith(".mp3"):
@@ -79,7 +84,6 @@ def download():
     if not ruta_mp3:
         return render_template("index.html", error="No se encontró el archivo MP3 generado.")
 
-    # Enviar el archivo al navegador y borrarlo después
     return send_file(
         ruta_mp3,
         as_attachment=True,
