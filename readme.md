@@ -1,25 +1,24 @@
 # YouTube Audio Downloader
 
-Script en Python para descargar audio de YouTube y convertirlo a MP3 usando `yt-dlp` y `ffmpeg`.
+Script en Python para descargar audio de YouTube y convertirlo a MP3.
 
 ## Requisitos
 
 - Python 3.10+
-- ffmpeg instalado y agregado al PATH
+- ffmpeg instalado (`choco install ffmpeg`)
 
 ## Instalación
 
 1. Clona el repositorio
 ```bash
-   git clone https://github.com/Juan-419/TU-REPO.git
-   cd TU-REPO
+   git clone https://github.com/Juan-419/YT.git
+   cd YT
 ```
 
-2. Crea y activa un entorno virtual
+2. Crea y activa el entorno virtual
 ```bash
    python -m venv venv
-   .\venv\Scripts\Activate.ps1   # Windows
-   source venv/bin/activate      # Linux/Mac
+   .\venv\Scripts\Activate.ps1
 ```
 
 3. Instala las dependencias
@@ -27,18 +26,10 @@ Script en Python para descargar audio de YouTube y convertirlo a MP3 usando `yt-
    pip install -r requirements.txt
 ```
 
-4. Instala ffmpeg
-   - Windows: `choco install ffmpeg`
-   - Linux: `sudo apt install ffmpeg`
-
 ## Uso
 
 ```bash
-python descargaryt.py
+python app.py
 ```
 
 Pega el link del video de YouTube cuando se solicite. El MP3 quedará en la carpeta `descargas/`.
-
-## Nota
-
-Este proyecto es para uso personal con contenido propio o con licencias que permitan su descarga. Respeta los términos de servicio de YouTube y los derechos de autor del contenido.
